@@ -124,6 +124,7 @@ set(2.lighting
     5.4.light_casters_spot_soft
     
     6.multiple_lights
+    6.multiple_lights_exercise1
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
