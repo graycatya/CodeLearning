@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+﻿#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
@@ -10,11 +10,13 @@ const unsigned int SCR_HEIGHT = 600;
 const char *vertexShaderSource = "#version 330 core\n"
                                  "layout (location = 0) in vec3 aPos;\n"
                                  "layout (location = 1) in vec3 aColor;\n"
-                                 "out vec3 ourColor;"   // 向片段着色器输出一个颜色
+                                 // 向片段着色器输出一个颜色
+                                 "out vec3 ourColor;"   
                                  "void main()\n"
                                  "{\n"
                                  "   gl_Position = vec4(aPos, 1.0);\n"
-                                 "   ourColor = aColor;\n" // 将ourColor设置为我们从顶点数据那里得到的输入颜色
+                                 // 将ourColor设置为我们从顶点数据那里得到的输入颜色
+                                 "   ourColor = aColor;\n" 
                                  "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
                                    "out vec4 FragColor;\n"
@@ -97,15 +99,17 @@ int main(int argc, char *argv[])
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
-    // check for shader compile errors
+
+    // 检查着色器编译错误
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
-    // link shaders
+
     // 创建一个程序对象
     unsigned int shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
@@ -156,6 +160,7 @@ int main(int argc, char *argv[])
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     glBindVertexArray(0);
+
 
 
     /*

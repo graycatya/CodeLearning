@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+﻿#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
 
@@ -20,7 +20,7 @@ enum EXERCISE_MODE {
     EXERCISE_BIOCHEMICAL_LAB
 };
 
-EXERCISE_MODE exercise_mode = EXERCISE_FACTORY;
+EXERCISE_MODE exercise_mode = EXERCISE_BIOCHEMICAL_LAB;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -369,15 +369,101 @@ int main()
             break;
         case EXERCISE_HORROR:
             lightingShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-            lightingShader.setVec3("dirLight.ambient", 0.03f, 0.24f, 0.14f);
-            lightingShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
-            lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+            lightingShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
+            lightingShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
+            lightingShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
+
+            lightingShader.setVec3("pointLights[0].position", pointLightPositions[0]);
+            lightingShader.setVec3("pointLights[0].ambient", pointLightColors[0] * 0.1f);
+            lightingShader.setVec3("pointLights[0].diffuse",pointLightColors[0]);
+            lightingShader.setVec3("pointLights[0].specular", pointLightColors[0]);
+            lightingShader.setFloat("pointLights[0].constant", 1.0f);
+            lightingShader.setFloat("pointLights[0].linear", 0.14f);
+            lightingShader.setFloat("pointLights[0].quadratic", 0.07f);
+
+            lightingShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+            lightingShader.setVec3("pointLights[1].ambient", pointLightColors[1] * 0.1f);
+            lightingShader.setVec3("pointLights[1].diffuse", pointLightColors[1]);
+            lightingShader.setVec3("pointLights[1].specular", pointLightColors[1]);
+            lightingShader.setFloat("pointLights[1].constant", 1.0f);
+            lightingShader.setFloat("pointLights[1].linear", 0.14f);
+            lightingShader.setFloat("pointLights[1].quadratic", 0.07f);
+            // point light 3
+            lightingShader.setVec3("pointLights[2].position", pointLightPositions[2]);
+            lightingShader.setVec3("pointLights[2].ambient", pointLightColors[2] * 0.1f);
+            lightingShader.setVec3("pointLights[2].diffuse", pointLightColors[2]);
+            lightingShader.setVec3("pointLights[2].specular", pointLightColors[2]);
+            lightingShader.setFloat("pointLights[2].constant", 1.0f);
+            lightingShader.setFloat("pointLights[2].linear", 0.22f);
+            lightingShader.setFloat("pointLights[2].quadratic", 0.20f);
+            // point light 4
+            lightingShader.setVec3("pointLights[3].position", pointLightPositions[3]);
+            lightingShader.setVec3("pointLights[3].ambient", pointLightColors[3] * 0.1f);
+            lightingShader.setVec3("pointLights[3].diffuse", pointLightColors[3]);
+            lightingShader.setVec3("pointLights[3].specular", pointLightColors[3]);
+            lightingShader.setFloat("pointLights[3].constant", 1.0f);
+            lightingShader.setFloat("pointLights[3].linear", 0.14f);
+            lightingShader.setFloat("pointLights[3].quadratic", 0.07f);
+            // spotLight
+            lightingShader.setVec3("spotLight.position", camera.Position);
+            lightingShader.setVec3("spotLight.direction", camera.Front);
+            lightingShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+            lightingShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+            lightingShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+            lightingShader.setFloat("spotLight.constant", 1.0f);
+            lightingShader.setFloat("spotLight.linear", 0.009f);
+            lightingShader.setFloat("spotLight.quadratic", 0.032f);
+            lightingShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
+            lightingShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(12.5f)));
             break;
         case EXERCISE_BIOCHEMICAL_LAB:
             lightingShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-            lightingShader.setVec3("dirLight.ambient", 0.03f, 0.24f, 0.14f);
-            lightingShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
-            lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+            lightingShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
+            lightingShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
+            lightingShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
+
+            lightingShader.setVec3("pointLights[0].position", pointLightPositions[0]);
+            lightingShader.setVec3("pointLights[0].ambient", pointLightColors[0] * 0.1f);
+            lightingShader.setVec3("pointLights[0].diffuse",pointLightColors[0]);
+            lightingShader.setVec3("pointLights[0].specular", pointLightColors[0]);
+            lightingShader.setFloat("pointLights[0].constant", 1.0f);
+            lightingShader.setFloat("pointLights[0].linear", 0.07f);
+            lightingShader.setFloat("pointLights[0].quadratic", 0.017f);
+
+            lightingShader.setVec3("pointLights[1].position", pointLightPositions[1]);
+            lightingShader.setVec3("pointLights[1].ambient", pointLightColors[1] * 0.1f);
+            lightingShader.setVec3("pointLights[1].diffuse", pointLightColors[1]);
+            lightingShader.setVec3("pointLights[1].specular", pointLightColors[1]);
+            lightingShader.setFloat("pointLights[1].constant", 1.0f);
+            lightingShader.setFloat("pointLights[1].linear", 0.07f);
+            lightingShader.setFloat("pointLights[1].quadratic", 0.017f);
+            // point light 3
+            lightingShader.setVec3("pointLights[2].position", pointLightPositions[2]);
+            lightingShader.setVec3("pointLights[2].ambient", pointLightColors[2] * 0.1f);
+            lightingShader.setVec3("pointLights[2].diffuse", pointLightColors[2]);
+            lightingShader.setVec3("pointLights[2].specular", pointLightColors[2]);
+            lightingShader.setFloat("pointLights[2].constant", 1.0f);
+            lightingShader.setFloat("pointLights[2].linear", 0.07f);
+            lightingShader.setFloat("pointLights[2].quadratic", 0.017f);
+            // point light 4
+            lightingShader.setVec3("pointLights[3].position", pointLightPositions[3]);
+            lightingShader.setVec3("pointLights[3].ambient", pointLightColors[3] * 0.1f);
+            lightingShader.setVec3("pointLights[3].diffuse", pointLightColors[3]);
+            lightingShader.setVec3("pointLights[3].specular", pointLightColors[3]);
+            lightingShader.setFloat("pointLights[3].constant", 1.0f);
+            lightingShader.setFloat("pointLights[3].linear", 0.07f);
+            lightingShader.setFloat("pointLights[3].quadratic", 0.017f);
+            // spotLight
+            lightingShader.setVec3("spotLight.position", camera.Position);
+            lightingShader.setVec3("spotLight.direction", camera.Front);
+            lightingShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+            lightingShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+            lightingShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+            lightingShader.setFloat("spotLight.constant", 1.0f);
+            lightingShader.setFloat("spotLight.linear", 0.07f);
+            lightingShader.setFloat("spotLight.quadratic", 0.017f);
+            lightingShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
+            lightingShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(12.5f)));
             break;
         default:
             // directional light

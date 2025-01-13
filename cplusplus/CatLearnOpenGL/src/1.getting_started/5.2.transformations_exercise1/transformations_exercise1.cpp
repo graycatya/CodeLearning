@@ -1,4 +1,4 @@
-int main()
+﻿int main()
 {
     [...]
     while(!glfwWindowShouldClose(window))

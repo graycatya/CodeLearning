@@ -1,4 +1,4 @@
-// 在您的CPP文件中:
+﻿// 在您的CPP文件中:
 // ======================
 float offset = 0.5f;
 ourShader.setFloat("xOffset", offset);
