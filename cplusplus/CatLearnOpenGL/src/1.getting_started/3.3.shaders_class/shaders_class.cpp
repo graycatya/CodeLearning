@@ -4,6 +4,8 @@
 #include <learnopengl/shader_s.h>
 #include <iostream>
 
+#include <cmath>
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -125,7 +127,7 @@ int main(int argc, char *argv[])
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     //我们使用的任何（在GL_ARRAY_BUFFER目标上的）缓冲调用都会用来配置当前绑定的缓冲(VBO)。然后我们可以调用glBufferData函数，它会把之前定义的顶点数据复制到缓冲的内存中
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
 
     //  设置顶点属性指针
     // 位置属性
@@ -161,6 +163,10 @@ int main(int argc, char *argv[])
         // 画出第一个三角形
         ourShader.use();
         glBindVertexArray(VAO); // 因为我们只有一个VAO，所以没有必要每次都绑定它，但是我们这样做是为了让事情更有条理
+        float timeValue = glfwGetTime();
+        vertices[4] = static_cast<float>(sin(timeValue) / 2.0f + 0.5f);
+        vertices[10] = static_cast<float>(sin(timeValue) / 2.0f + 0.5f);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         // 函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。
         glfwSwapBuffers(window);

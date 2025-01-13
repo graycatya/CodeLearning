@@ -177,13 +177,13 @@ int main(int argc, char *argv[])
         // 渲染指令
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
         // 画出第一个三角形
         float timeValue = glfwGetTime();
         float greenValue = static_cast<float>(sin(timeValue) / 2.0f + 0.5f);
         int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
         glUseProgram(shaderProgram);
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        glUniform4f(vertexColorLocation, 1.0f, greenValue, 0.0f, 0.1f);
         glBindVertexArray(VAO); // 因为我们只有一个VAO，所以没有必要每次都绑定它，但是我们这样做是为了让事情更有条理
         glDrawArrays(GL_TRIANGLES, 0, 3);
         // 函数检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数（可以通过回调方法手动设置）。

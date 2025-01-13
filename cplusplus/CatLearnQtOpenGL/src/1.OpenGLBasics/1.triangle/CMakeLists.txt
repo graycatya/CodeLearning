@@ -1,0 +1,48 @@
+cmake_minimum_required(VERSION 3.27)
+cmake_policy(VERSION 3.27)
+
+project(1.triangle LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui OpenGL OpenGLWidgets Widgets)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui OpenGL OpenGLWidgets Widgets)
+else(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui OpenGL Widgets)
+endif(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+file(GLOB SRC_LIST
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.ui"
+)
+
+set(SRC_QRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/resources/resources.qrc")
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_resources(PROJECT_QRC_FILES ${SRC_QRC_LIST})
+else(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt5_add_resources(PROJECT_QRC_FILES ${SRC_QRC_LIST})
+endif(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+
+add_executable(${PROJECT_NAME} ${SRC_LIST}
+    ${PROJECT_QRC_FILES})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::OpenGL
+    Qt${QT_VERSION_MAJOR}::Gui
+    Qt${QT_VERSION_MAJOR}::Core
+)
+
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        Qt${QT_VERSION_MAJOR}::OpenGLWidgets
+    )
+endif(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

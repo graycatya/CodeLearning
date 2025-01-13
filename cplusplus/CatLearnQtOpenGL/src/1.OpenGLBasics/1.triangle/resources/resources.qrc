@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>triangle.fs</file>
+        <file>triangle.vs</file>
+    </qresource>
+</RCC>
