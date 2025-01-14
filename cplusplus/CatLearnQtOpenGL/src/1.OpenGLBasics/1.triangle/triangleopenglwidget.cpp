@@ -4,6 +4,14 @@
 #include <QPointF>
 #include <cmath>
 
+static void qNormalizeAngle(int &angle)
+{
+    while (angle < 0)
+        angle += 360 * 16;
+    while (angle > 360 * 16)
+        angle -= 360 * 16;
+}
+
 TriangleOpenGLWidget::TriangleOpenGLWidget(QWidget *parent) :
     QOpenGLWidget(parent)
 {
@@ -22,10 +30,56 @@ TriangleOpenGLWidget::~TriangleOpenGLWidget()
     doneCurrent();
 }
 
-void TriangleOpenGLWidget::mousePressEvent(QMouseEvent *e)
+void TriangleOpenGLWidget::setXRotation(int angle)
 {
+    qNormalizeAngle(angle);
+    if (angle != m_xRot) {
+        m_xRot = angle;
+        emit xRotationChanged(angle);
+        update();
+    }
+}
+
+void TriangleOpenGLWidget::setYRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != m_yRot) {
+        m_yRot = angle;
+        emit yRotationChanged(angle);
+        update();
+    }
+}
+
+void TriangleOpenGLWidget::setZRotation(int angle)
+{
+    qNormalizeAngle(angle);
+    if (angle != m_zRot) {
+        m_zRot = angle;
+        emit zRotationChanged(angle);
+        update();
+    }
+}
+
+void TriangleOpenGLWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    int dx = event->x() - m_lastPos.x();
+    int dy = event->y() - m_lastPos.y();
+
+    if (event->buttons() & Qt::LeftButton) {
+        setXRotation(m_xRot + 8 * dy);
+        setYRotation(m_yRot + 8 * dx);
+    } else if (event->buttons() & Qt::RightButton) {
+        setXRotation(m_xRot + 8 * dy);
+        setZRotation(m_zRot + 8 * dx);
+    }
+    m_lastPos = event->pos();
+}
+
+void TriangleOpenGLWidget::mousePressEvent(QMouseEvent *event)
+{
+    m_lastPos = event->pos();
     angularSpeed = 0;
-    mousePressPosition = QVector2D(e->localPos());
+    mousePressPosition = QVector2D(event->localPos());
 }
 
 void TriangleOpenGLWidget::mouseReleaseEvent(QMouseEvent *e)
@@ -107,8 +161,10 @@ void TriangleOpenGLWidget::paintGL()
     program.bind();
 
     QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -5.0);
-    matrix.rotate(rotation);
+    matrix.setToIdentity();
+    matrix.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
+    matrix.rotate(m_yRot / 16.0f, 0, 1, 0);
+    matrix.rotate(m_zRot / 16.0f, 0, 0, 1);
 
     // Set modelview-projection matrix
     program.setUniformValue("mvp_matrix", projection * matrix);

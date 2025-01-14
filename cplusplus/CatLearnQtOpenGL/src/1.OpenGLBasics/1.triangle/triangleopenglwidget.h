@@ -22,7 +22,18 @@ public:
     TriangleOpenGLWidget();
     ~TriangleOpenGLWidget();
 
+public slots:
+    void setXRotation(int angle);
+    void setYRotation(int angle);
+    void setZRotation(int angle);
+
+signals:
+    void xRotationChanged(int angle);
+    void yRotationChanged(int angle);
+    void zRotationChanged(int angle);
+
 protected:
+    void mouseMoveEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void timerEvent(QTimerEvent *e) override;
@@ -38,11 +49,18 @@ private:
     TriangleEngine *triangleEngine = nullptr;
 
     QMatrix4x4 projection;
-
+    int m_xRot = 0;
+    int m_yRot = 0;
+    int m_zRot = 0;
     QVector2D mousePressPosition;
     QVector3D rotationAxis;
     qreal angularSpeed = 0;
     QQuaternion rotation;
+    QPoint m_lastPos;
+
+    QMatrix4x4 m_proj;
+    QMatrix4x4 m_camera;
+    QMatrix4x4 m_world;
 };
 
 #endif // TRIANGLEOPENGLWIDGET_H
