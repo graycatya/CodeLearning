@@ -34,8 +34,8 @@ void TriangleEngine::initEngine()
     VertexData vertices[] = {
         // Vertex data for face 0
         {QVector3D(-0.5f, -0.5f, 0.0f), QVector4D(1.0f, 0.5f, 1.0f, 1.0f)},
-        {QVector3D(0.5f, -0.5f, 0.0f), QVector4D(1.0f, 0.5f, 1.0f, 0.2f)},
-        {QVector3D(0.0f,  0.5f, 0.0f), QVector4D(1.0f, 0.5f, 1.0f, 0.2f)}
+        {QVector3D(0.5f, -0.5f, 0.0f), QVector4D(1.0f, 0.5f, 1.0f, 1.0f)},
+        {QVector3D(0.0f,  0.5f, 0.0f), QVector4D(1.0f, 0.5f, 1.0f, 1.0f)}
     };
     GLushort indices[] = { 0,  1,  2 };
     arrayBuf.setUsagePattern(QOpenGLBuffer::DynamicDraw);
@@ -51,6 +51,7 @@ void TriangleEngine::initEngine()
 
 void TriangleEngine::drawEngine(QOpenGLShaderProgram *program)
 {
+    glEnable(GL_LIGHTING | GL_CULL_FACE);
     // Tell OpenGL which VBOs to use
     arrayBuf.bind();
     indexBuf.bind();

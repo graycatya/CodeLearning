@@ -1,5 +1,9 @@
 #include "triangleopenglwidget.h"
 
+#include <QMouseEvent>
+#include <QPointF>
+#include <cmath>
+
 TriangleOpenGLWidget::TriangleOpenGLWidget(QWidget *parent) :
     QOpenGLWidget(parent)
 {
@@ -20,17 +24,43 @@ TriangleOpenGLWidget::~TriangleOpenGLWidget()
 
 void TriangleOpenGLWidget::mousePressEvent(QMouseEvent *e)
 {
-
+    angularSpeed = 0;
+    mousePressPosition = QVector2D(e->localPos());
 }
 
 void TriangleOpenGLWidget::mouseReleaseEvent(QMouseEvent *e)
 {
+    // Mouse release position - mouse press position
+    QVector2D diff = QVector2D(e->localPos()) - mousePressPosition;
 
+    // Rotation axis is perpendicular to the mouse position difference
+    // vector
+    QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
+
+    // Accelerate angular speed relative to the length of the mouse sweep
+    qreal acc = diff.length() / 100.0;
+
+    // Calculate new rotation axis as weighted sum
+    rotationAxis = (rotationAxis * angularSpeed + n * acc).normalized();
+
+    // Increase angular speed
+    angularSpeed += acc;
 }
 
 void TriangleOpenGLWidget::timerEvent(QTimerEvent *e)
 {
+    //angularSpeed *= 0.99;
 
+    // Stop rotation when speed goes below threshold
+    if (angularSpeed < 0.01) {
+        angularSpeed = 0.0;
+    } else {
+        // Update rotation
+        rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
+
+        // Request an update
+        update();
+    }
 }
 
 void TriangleOpenGLWidget::initializeGL()
@@ -43,6 +73,8 @@ void TriangleOpenGLWidget::initializeGL()
     initShaders();
 
     triangleEngine = new TriangleEngine;
+
+    timer.start(12, this);
 }
 
 void TriangleOpenGLWidget::resizeGL(int w, int h)
@@ -70,7 +102,7 @@ void TriangleOpenGLWidget::paintGL()
     glEnable(GL_DEPTH_TEST);
 
     // Enable back face culling
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
     program.bind();
 

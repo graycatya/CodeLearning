@@ -33,6 +33,7 @@ protected:
 
     void initShaders();
 private:
+    QBasicTimer timer;
     QOpenGLShaderProgram program;
     TriangleEngine *triangleEngine = nullptr;
 
