@@ -3,7 +3,7 @@
 #include <QVector4D>
 #include <QVector3D>
 #include <QVector2D>
-
+#include <cmath>
 struct VertexData
 {
     QVector3D position;
@@ -86,7 +86,7 @@ void TriangleEngine::drawEngine(QOpenGLShaderProgram *program)
     quintptr offset = 0;
 
     // Tell OpenGL programmable pipeline how to locate vertex position data
-    int vertexLocation = program->attributeLocation("aPos");
+    int vertexLocation = program->attributeLocation("objectPos");
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer(vertexLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
 
@@ -94,9 +94,14 @@ void TriangleEngine::drawEngine(QOpenGLShaderProgram *program)
     offset += sizeof(QVector3D);
 
     // Tell OpenGL programmable pipeline how to locate vertex texture coordinate data
-    int colorLocation = program->attributeLocation("aColor");
+    int colorLocation = program->attributeLocation("objectColor");
     program->enableAttributeArray(colorLocation);
     program->setAttributeBuffer(colorLocation, GL_FLOAT, offset, 4, sizeof(VertexData));
+    offset += sizeof(QVector4D);
+
+    int normalLocation = program->attributeLocation("objectNormal");
+    program->enableAttributeArray(normalLocation);
+    program->setAttributeBuffer(normalLocation, GL_FLOAT, offset, 3, sizeof(VertexData));
 
     glDrawElements(GL_TRIANGLE_STRIP, 3, GL_UNSIGNED_SHORT, nullptr);
 

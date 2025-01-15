@@ -53,7 +53,9 @@ private:
     QOpenGLShaderProgram program;
     TriangleEngine *triangleEngine = nullptr;
 
-    QMatrix4x4 projection;
+    QMatrix4x4 m_Projection;
+    QMatrix4x4 m_Camera;
+    QMatrix4x4 m_View;
     int m_xRot = 0;
     int m_yRot = 0;
     int m_zRot = 0;
@@ -63,9 +65,7 @@ private:
     QQuaternion rotation;
     QPoint m_lastPos;
 
-    QMatrix4x4 m_proj;
-    QMatrix4x4 m_camera;
-    QMatrix4x4 m_world;
+
     quint64 m_lastTime;
     int m_frameCount;
 };

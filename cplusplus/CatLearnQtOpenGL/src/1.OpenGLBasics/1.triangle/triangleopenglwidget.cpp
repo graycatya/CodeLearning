@@ -21,6 +21,9 @@ TriangleOpenGLWidget::TriangleOpenGLWidget(QWidget *parent) :
 
     m_lastTime = QDateTime::currentMSecsSinceEpoch();
     m_frameCount = 0;
+
+    m_Camera.setToIdentity();
+    m_Camera.translate(0, 0, -2.0);
 }
 
 TriangleOpenGLWidget::TriangleOpenGLWidget()
@@ -159,13 +162,14 @@ void TriangleOpenGLWidget::resizeGL(int w, int h)
     qreal aspect = qreal(w) / qreal(h ? h : 1);
 
     // Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
-    const qreal zNear = 3.0, zFar = 7.0, fov = 45.0;
+    const qreal zNear = 10.0, zFar = 7.0, fov = 45.0;
 
     // Reset projection
-    projection.setToIdentity();
+    m_Projection.setToIdentity();
 
     // Set perspective projection
-    projection.perspective(fov, aspect, zNear, zFar);
+    //m_Projection.perspective(fov, aspect, zNear, zFar);
+    m_Projection.perspective(45.0f, GLfloat(w) / h, 0.01f, 100.0f);
 }
 
 void TriangleOpenGLWidget::paintGL()
@@ -179,18 +183,22 @@ void TriangleOpenGLWidget::paintGL()
 
     // Enable back face culling
     //glEnable(GL_CULL_FACE);
+    program.setUniformValue("lightPos", QVector3D(0, 0, 70));
+    program.setUniformValue("lightColor", 1.0f, 1.0f, 1.0f);
 
     program.bind();
 
-    QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -6.0);
-    //matrix.setToIdentity();
-    // matrix.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
-    // matrix.rotate(m_yRot / 16.0f, 0, 1, 0);
-    // matrix.rotate(m_zRot / 16.0f, 0, 0, 1);
+
+
+    //m_View.translate(0.0, 0.0, -6.0);
+    m_View.setToIdentity();
+    m_View.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
+    m_View.rotate(m_yRot / 16.0f, 0, 1, 0);
+    m_View.rotate(m_zRot / 16.0f, 0, 0, 1);
 
     // Set modelview-projection matrix
-    program.setUniformValue("mvp_matrix", projection * matrix);
+    program.setUniformValue("projectionMatrix", m_Projection);
+    program.setUniformValue("mvpMatrix", m_Camera * m_View);
 
 
     // Draw cube geometry
