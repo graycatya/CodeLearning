@@ -3,6 +3,9 @@
 #include <QMouseEvent>
 #include <QPointF>
 #include <cmath>
+#include <QDateTime>
+
+#include <QDebug>
 
 static void qNormalizeAngle(int &angle)
 {
@@ -16,6 +19,8 @@ TriangleOpenGLWidget::TriangleOpenGLWidget(QWidget *parent) :
     QOpenGLWidget(parent)
 {
 
+    m_lastTime = QDateTime::currentMSecsSinceEpoch();
+    m_frameCount = 0;
 }
 
 TriangleOpenGLWidget::TriangleOpenGLWidget()
@@ -28,6 +33,22 @@ TriangleOpenGLWidget::~TriangleOpenGLWidget()
     makeCurrent();
     delete triangleEngine;
     doneCurrent();
+}
+
+void TriangleOpenGLWidget::updateFps()
+{
+    quint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    m_frameCount++;
+    if (currentTime - m_lastTime >= 1000) {
+
+        int fps = m_frameCount * 1000 / (currentTime - m_lastTime);
+        if(fps > 0)
+        {
+            emit updateFpsed(fps);
+        }
+        m_frameCount = 0;
+        m_lastTime = currentTime;
+    }
 }
 
 void TriangleOpenGLWidget::setXRotation(int angle)
@@ -106,15 +127,16 @@ void TriangleOpenGLWidget::timerEvent(QTimerEvent *e)
     //angularSpeed *= 0.99;
 
     // Stop rotation when speed goes below threshold
-    if (angularSpeed < 0.01) {
-        angularSpeed = 0.0;
-    } else {
-        // Update rotation
-        rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
+    // if (angularSpeed < 0.01) {
+    //     angularSpeed = 0.0;
+    // } else {
+    //     // Update rotation
+    //     rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
 
-        // Request an update
-        update();
-    }
+    //     // Request an update
+    //     update();
+    // }
+    update();
 }
 
 void TriangleOpenGLWidget::initializeGL()
@@ -161,10 +183,11 @@ void TriangleOpenGLWidget::paintGL()
     program.bind();
 
     QMatrix4x4 matrix;
-    matrix.setToIdentity();
-    matrix.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
-    matrix.rotate(m_yRot / 16.0f, 0, 1, 0);
-    matrix.rotate(m_zRot / 16.0f, 0, 0, 1);
+    matrix.translate(0.0, 0.0, -6.0);
+    //matrix.setToIdentity();
+    // matrix.rotate(180.0f - (m_xRot / 16.0f), 1, 0, 0);
+    // matrix.rotate(m_yRot / 16.0f, 0, 1, 0);
+    // matrix.rotate(m_zRot / 16.0f, 0, 0, 1);
 
     // Set modelview-projection matrix
     program.setUniformValue("mvp_matrix", projection * matrix);
@@ -172,6 +195,8 @@ void TriangleOpenGLWidget::paintGL()
 
     // Draw cube geometry
     triangleEngine->drawEngine(&program);
+    updateFps();
+
 }
 
 void TriangleOpenGLWidget::initShaders()

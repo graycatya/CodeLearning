@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "triangleopenglwidget.h"
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +20,8 @@ public:
 private:
     Ui::MainWindow *ui;
     TriangleOpenGLWidget *m_TriangleOpenGLWidget = nullptr;
+    TriangleOpenGLWidget *m_TriangleOpenGLWidget1 = nullptr;
+    QLabel* m_fpslabel;
 };
 
 #endif // MAINWINDOW_H

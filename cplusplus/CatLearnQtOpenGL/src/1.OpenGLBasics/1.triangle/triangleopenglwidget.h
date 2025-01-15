@@ -7,6 +7,7 @@
 #include <QQuaternion>
 #include <QVector2D>
 #include <QBasicTimer>
+#include <QElapsedTimer>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
@@ -22,6 +23,9 @@ public:
     TriangleOpenGLWidget();
     ~TriangleOpenGLWidget();
 
+private:
+    void updateFps();
+
 public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
@@ -31,6 +35,7 @@ signals:
     void xRotationChanged(int angle);
     void yRotationChanged(int angle);
     void zRotationChanged(int angle);
+    void updateFpsed(int fps);
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -61,6 +66,8 @@ private:
     QMatrix4x4 m_proj;
     QMatrix4x4 m_camera;
     QMatrix4x4 m_world;
+    quint64 m_lastTime;
+    int m_frameCount;
 };
 
 #endif // TRIANGLEOPENGLWIDGET_H
