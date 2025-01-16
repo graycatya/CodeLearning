@@ -108,7 +108,8 @@ set(2.lighting
     2.4.basic_lighting_exercise1
     2.5.basic_lighting_exercise2
     2.6.basic_lighting_exercise3
-
+    2.7.basic_lighting_exercise4
+    
     3.1.materials
     3.2.materials_exercise1
 
