@@ -57,6 +57,7 @@ void TriangleEngine::initEngine()
     vertices[0].normal = normal;
     vertices[1].normal = normal;
     vertices[2].normal = normal;
+    qDebug() << "normal: " << normal;
     // = {
     //     // Vertex data for face 0
     //     {QVector3D(-0.5f, -0.5f, 0.0f), QVector4D(1.0f, 0.5f, 1.0f, 1.0f)},
