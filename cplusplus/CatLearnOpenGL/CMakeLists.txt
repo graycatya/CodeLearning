@@ -65,6 +65,7 @@ endif(WIN32)
 set(CHAPTERS
     1.getting_started
     2.lighting
+    3.model_loading
 )
 
 set(1.getting_started
@@ -126,6 +127,10 @@ set(2.lighting
     
     6.multiple_lights
     6.multiple_lights_exercise1
+)
+
+set(3.model_loading
+    1.model_loading
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
@@ -199,7 +204,7 @@ function(create_project_from_sources chapter demo)
         elseif(APPLE)
             # 创建符号链接 *.vs *.fs *.gs
             get_filename_component(SHADERNAME ${SHADER} NAME)
-            makeLink(${SHADER} ${CMAKE_SOURCE_DIR}/bin/${chapter}/${SHADERNAME} ${NAME})
+            makeLink(${SHADER} ${CMAKE_SOURCE_DIR}/${chapter}/${SHADERNAME} ${NAME})
         endif(WIN32)
     endforeach(SHADER)
     # 如果为 Visual Studio 进行编译，还要为每个项目使用配置文件（特别是用于设置工作目录）
