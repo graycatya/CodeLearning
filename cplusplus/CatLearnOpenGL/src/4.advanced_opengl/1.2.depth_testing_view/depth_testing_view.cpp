@@ -73,12 +73,14 @@ int main()
 
     // configure global opengl state
     // -----------------------------
+    // configure global opengl state
+    // -----------------------------
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_ALWAYS); // always pass the depth test (same effect as glDisable(GL_DEPTH_TEST))
-
+    glDepthFunc(GL_LESS);
+    
     // build and compile shaders
     // -------------------------
-    Shader shader("1.1.depth_testing.vs", "1.1.depth_testing.fs");
+    Shader shader("1.2.depth_testing.vs", "1.2.depth_testing.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
