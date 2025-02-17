@@ -137,6 +137,7 @@ set(3.model_loading
 set(4.advanced_opengl
     1.1.depth_testing
     1.2.depth_testing_view
+    2.1.stencil_testing
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
