@@ -77,6 +77,13 @@ int main()
     glDepthFunc(GL_LESS); // always pass the depth test (same effect as glDisable(GL_DEPTH_TEST))
     glEnable(GL_STENCIL_TEST);
     glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+    /*
+    sfail：模板测试失败时采取的行为。
+    dpfail：模板测试通过，但深度测试失败时采取的行为。
+    dppass：模板测试和深度测试都通过时采取的行为。
+    设置在每一帧中模板测试通过或失败时，需要执行的操作
+    GL_REPLACE 将模板值设置为glStencilFunc函数设置的ref值
+     */
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
     // build and compile shaders
@@ -215,7 +222,9 @@ int main()
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
 
+        // 所有的片段都应该更新模板缓冲
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        // 启用模板缓冲写入
         glStencilMask(0xFF);
 
         // cubes
@@ -230,6 +239,7 @@ int main()
         shader.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        // 每一位在写入模板缓冲时都会变成0（禁用写入）
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
         glStencilMask(0x00);
         glDisable(GL_DEPTH_TEST);
