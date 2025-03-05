@@ -81,8 +81,8 @@ int main()
     
     // build and compile shaders
     // -------------------------
-    Shader shader("5.1.framebuffers.vs", "5.1.framebuffers.fs");
-    Shader screenShader("5.1.framebuffers_screen.vs", "5.1.framebuffers_screen.fs");
+    Shader shader("5.3.framebuffers.vs", "5.3.framebuffers.fs");
+    Shader screenShader("5.3.framebuffers_screen.vs", "5.3.framebuffers_screen.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
