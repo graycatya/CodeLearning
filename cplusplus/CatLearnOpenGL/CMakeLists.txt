@@ -145,6 +145,7 @@ set(4.advanced_opengl
     5.2.framebuffers_exercise1
     5.3.framebuffers_exercise2
     5.4.framebuffers_exercise3
+    6.1.cubemaps_skybox
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
