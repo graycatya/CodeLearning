@@ -146,6 +146,8 @@ set(4.advanced_opengl
     5.3.framebuffers_exercise2
     5.4.framebuffers_exercise3
     6.1.cubemaps_skybox
+    6.2.cubemaps_environment_mapping
+    6.3.cubemaps_environment_refractive
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
