@@ -49,5 +49,6 @@
         "__tree": "cpp",
         "__verbose_abort": "cpp",
         "ios": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "E:/code/catgrayprj/CodeLearning/cplusplus/CatLearnOpenGL"
 }

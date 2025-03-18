@@ -148,6 +148,7 @@ set(4.advanced_opengl
     6.1.cubemaps_skybox
     6.2.cubemaps_environment_mapping
     6.3.cubemaps_environment_refractive
+    8.advanced_glsl_ubo
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
