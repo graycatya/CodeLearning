@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+﻿#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
 
@@ -143,11 +143,12 @@ int main()
     unsigned int uniformBlockIndexBlue = glGetUniformBlockIndex(shaderBlue.ID, "Matrices");
     unsigned int uniformBlockIndexYellow = glGetUniformBlockIndex(shaderYellow.ID, "Matrices");
     // then we link each shader's uniform block to this uniform binding point
+    // 首先，我们将顶点着色器的Uniform块设置为绑定点0。注意我们需要对每个着色器都设置一遍。
     glUniformBlockBinding(shaderRed.ID, uniformBlockIndexRed, 0);
     glUniformBlockBinding(shaderGreen.ID, uniformBlockIndexGreen, 0);
     glUniformBlockBinding(shaderBlue.ID, uniformBlockIndexBlue, 0);
     glUniformBlockBinding(shaderYellow.ID, uniformBlockIndexYellow, 0);
-    // Now actually create the buffer
+    // Now actually create the buffer 接下来，我们创建Uniform缓冲对象本身，并将其绑定到绑定点0：
     unsigned int uboMatrices;
     glGenBuffers(1, &uboMatrices);
     glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
@@ -157,6 +158,8 @@ int main()
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboMatrices, 0, 2 * sizeof(glm::mat4));
 
     // store the projection matrix (we only do this once now) (note: we're not using zoom anymore by changing the FoV)
+    // 投影矩阵的视野(Field of View)值保持不变（所以摄像机就没有缩放了），我们只需要将其在程序中定义一次——这也意味着我们只需要将它插入到缓冲中一次。
+    // 因为我们已经为缓冲对象分配了足够的内存，我们可以使用glBufferSubData在进入渲染循环之前存储投影矩阵：
     glm::mat4 projection = glm::perspective(45.0f, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
@@ -182,11 +185,12 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // set the view and projection matrix in the uniform block - we only have to do this once per loop iteration.
+        // 每次渲染迭代中绘制物体之前，我们会将观察矩阵更新到缓冲的后半部分：
         glm::mat4 view = camera.GetViewMatrix();
         glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
+        // 现在要用4个不同的着色器绘制4个立方体，它们的投影和观察矩阵都会是一样的
         // draw 4 cubes 
         // RED
         glBindVertexArray(cubeVAO);
