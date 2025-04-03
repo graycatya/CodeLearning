@@ -149,6 +149,11 @@ set(4.advanced_opengl
     6.2.cubemaps_environment_mapping
     6.3.cubemaps_environment_refractive
     8.advanced_glsl_ubo
+    9.1.geometry_shader_houses
+    9.2.geometry_shader_exploding
+    9.3.geometry_shader_normals
+    9.4.geometry_shader_line
+    9.5.geometry_shader_points
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
