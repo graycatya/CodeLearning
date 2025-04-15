@@ -154,6 +154,9 @@ set(4.advanced_opengl
     9.3.geometry_shader_normals
     9.4.geometry_shader_line
     9.5.geometry_shader_points
+    10.1.instancing_quads
+    10.2.instancing_quads_narrow
+    10.3.asteroids
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
