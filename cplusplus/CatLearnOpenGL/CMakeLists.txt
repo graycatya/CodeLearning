@@ -157,6 +157,7 @@ set(4.advanced_opengl
     10.1.instancing_quads
     10.2.instancing_quads_narrow
     10.3.asteroids
+    10.4.asteroids_instanced
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)

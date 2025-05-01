@@ -76,8 +76,8 @@ int main()
 
     // build and compile shaders
     // -------------------------
-    Shader asteroidShader("10.3.asteroids.vs", "10.3.asteroids.fs");
-    Shader planetShader("10.3.planet.vs", "10.3.planet.fs");
+    Shader asteroidShader("10.4.asteroids.vs", "10.4.asteroids.fs");
+    Shader planetShader("10.4.planet.vs", "10.4.planet.fs");
 
     // load models
     // -----------
@@ -86,7 +86,7 @@ int main()
 
     // generate a large list of semi-random model transformation matrices
     // ------------------------------------------------------------------
-    unsigned int amount = 1000000;
+    unsigned int amount = 100000;
     glm::mat4* modelMatrices;
     modelMatrices = new glm::mat4[amount];
     srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
