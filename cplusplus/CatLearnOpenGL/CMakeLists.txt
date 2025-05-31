@@ -158,6 +158,8 @@ set(4.advanced_opengl
     10.2.instancing_quads_narrow
     10.3.asteroids
     10.4.asteroids_instanced
+    11.1.anti_aliasing_msaa
+    11.2.anti_aliasing_offscreen
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
