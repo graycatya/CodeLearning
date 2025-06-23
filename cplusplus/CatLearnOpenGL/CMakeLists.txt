@@ -67,6 +67,7 @@ set(CHAPTERS
     2.lighting
     3.model_loading
     4.advanced_opengl
+    5.advanced_lighting
 )
 
 set(1.getting_started
@@ -160,6 +161,11 @@ set(4.advanced_opengl
     10.4.asteroids_instanced
     11.1.anti_aliasing_msaa
     11.2.anti_aliasing_offscreen
+)
+
+set(5.advanced_lighting
+    1.advanced_lighting
+    2.gamma_correction
 )
 
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
